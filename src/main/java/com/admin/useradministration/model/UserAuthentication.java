@@ -1,23 +1,24 @@
 package com.admin.useradministration.model;
 
 public class UserAuthentication {
+
+
+    private String password;
+    private String username;
+
     public String getPassword() {
-        return Password;
+        return password;
     }
 
     public void setPassword(String password) {
-        Password = password;
+        this.password = password;
     }
 
     public String getUsername() {
-        return Username;
+        return username;
     }
 
     public void setUsername(String username) {
-        Username = username;
+        this.username = username;
     }
-
-    private String Password;
-    private String Username;
-
 }

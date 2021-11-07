@@ -28,7 +28,14 @@ public class UserAdminstrationMemory {
 
 
     UserAdminstrationMemory(){
-
+        User user = new User();
+        user.setFirstname("admin");
+        user.setUserid(101);
+        user.setLastname("admin");
+user.setIsFamilyMember("admin");
+user.setPassword("admin");
+user.setUsername("admin");
+        userTable.put(user, rightsData);
 
     }
 
@@ -65,7 +72,7 @@ if(checkSession) {
 
                 }
             } else {
-                List<Group> userIdList = new ArrayList<>();
+                List<Group> userIdList = new CopyOnWriteArrayList<>();
                 userIdList.add(group);
                 userGroupTable.put(userName, userIdList);
             }
@@ -83,7 +90,7 @@ if(checkSession) {
     public boolean userAuthentication(UserAuthentication userAuthentication){
         for(Map.Entry key:userTable.entrySet()){
             User user= (User) key.getKey();
-            if(userAuthentication.getUsername().equalsIgnoreCase(userAuthentication.getUsername())){
+            if(user.getUsername().equalsIgnoreCase(userAuthentication.getUsername())&&user.getPassword().equalsIgnoreCase(userAuthentication.getPassword())){
                 session.put(user.getUsername(),LocalDateTime.now());
                 return  true;
             }
@@ -122,8 +129,11 @@ if(checkSession) {
      */
     public void deleteUserGroup(String loggedInUserName, String userName, int groupId) {
         boolean  checkSession=  checkUserSession(loggedInUserName);
+        if(checkSession){
+        
+        
             for(Map.Entry<String,List<Group>> key:userGroupTable.entrySet()) {
-                if (key.equals(userName)) {
+                if (key.getKey().equals(userName)) {
                     List<Group> groupList = key.getValue();
                     for (Group gr : groupList) {
                         if (gr.getGroupid() == groupId) {
@@ -134,7 +144,9 @@ if(checkSession) {
                     userGroupTable.put(userName, groupList);
 
                 }
-            }
+            }}else{
+
+        }
 
     }
 
@@ -146,9 +158,9 @@ if(checkSession) {
      */
     public void deleteUserRight(String loggedInUserName, String userName, int rightId) {
         boolean  checkSession=  checkUserSession(loggedInUserName);
-        if(checkSession && validateUserRights(loggedInUserName,"DeleteUserRight")){
+        if(checkSession && validateUserRights(loggedInUserName,"DeleteRight")){
             for(Map.Entry<User,List<Right>> key:userTable.entrySet()){
-                if(key.equals(userName)){
+                if(key.getKey().getUsername().equals(userName)){
                     List<Right> rightList = key.getValue();
                     for(Right right:rightList){
                         if(right.getRightid()==rightId){
@@ -173,12 +185,12 @@ if(checkSession) {
      * @param rightId
      * @param groupId
      */
-    //Need to check the logic with client   
+    //Need to check the logic with client
     public void deleteUserGroupRight(String loggedInUserName, String userName, int rightId, int groupId) {
         boolean  checkSession=  checkUserSession(loggedInUserName);
         if(checkSession && validateUserRights(loggedInUserName,"DeleteGroup")){
             for(Map.Entry<String,List<Group>> key:userGroupTable.entrySet()){
-                if(key.equals(userName)){
+                if(key.getKey().equals(userName)){
                     List<Group> groupList = key.getValue();
                     for(Group gr:groupList){
                         if(gr.getGroupid()==groupId){
@@ -228,11 +240,18 @@ if(checkSession) {
     private boolean checkUserSession(String userName){
         LocalDateTime dateTime = session.get(userName);
 
-        LocalDateTime currenDateTime = dateTime.plus(Duration.of(30, ChronoUnit.MINUTES));
-        if(currenDateTime.equals(dateTime)){
-            return  true;
+        LocalDateTime interValTime = dateTime.plus(Duration.of(30, ChronoUnit.MINUTES));
+        if(interValTime.equals(LocalDateTime.now())){
+            return  false;
         }
-        return  false;
+        return  true;
     }
 
-   }
+    public Map<User, List<Right>> getUserList() {
+        return userTable;
+    }
+
+    public Map<String, List<Group>> getUserGroups(String userName) {
+        return userGroupTable;
+    }
+}

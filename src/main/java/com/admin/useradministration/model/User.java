@@ -1,54 +1,44 @@
 package com.admin.useradministration.model;
 
-public class User {
+import java.io.Serializable;
 
-    private String Firstname;
-    private String IsFamilyMember;
-    private String Lastname;
-    private String Password;
-    private int userid;
-    private String Username;
+public class User implements Serializable {
 
-    public RightsType getType() {
-        return Type;
-    }
-
-    public void setType(RightsType type) {
-        Type = type;
-    }
-
-    private RightsType Type;
+    private String firstname;
+    private String isFamilyMember;
+    private String lastname;
+    private String password;
 
     public String getFirstname() {
-        return Firstname;
+        return firstname;
     }
 
     public void setFirstname(String firstname) {
-        Firstname = firstname;
+        this.firstname = firstname;
     }
 
     public String getIsFamilyMember() {
-        return IsFamilyMember;
+        return isFamilyMember;
     }
 
     public void setIsFamilyMember(String isFamilyMember) {
-        IsFamilyMember = isFamilyMember;
+        this.isFamilyMember = isFamilyMember;
     }
 
     public String getLastname() {
-        return Lastname;
+        return lastname;
     }
 
     public void setLastname(String lastname) {
-        Lastname = lastname;
+        this.lastname = lastname;
     }
 
     public String getPassword() {
-        return Password;
+        return password;
     }
 
     public void setPassword(String password) {
-        Password = password;
+        this.password = password;
     }
 
     public int getUserid() {
@@ -60,19 +50,19 @@ public class User {
     }
 
     public String getUsername() {
-        return Username;
+        return username;
     }
 
     public void setUsername(String username) {
-        Username = username;
+        this.username = username;
     }
 
     public String getUserType() {
-        return UserType;
+        return userType;
     }
 
     public void setUserType(String userType) {
-        UserType = userType;
+        this.userType = userType;
     }
 
     public Right getM_Right() {
@@ -91,8 +81,21 @@ public class User {
         this.m_Group = m_Group;
     }
 
-    private String UserType;
+    public RightsType getType() {
+        return Type;
+    }
+
+    public void setType(RightsType type) {
+        Type = type;
+    }
+
+    private int userid;
+    private String username;
+    private String userType;
     public Right m_Right;
     public Group m_Group;
+    private RightsType Type;
+
+
 
 }

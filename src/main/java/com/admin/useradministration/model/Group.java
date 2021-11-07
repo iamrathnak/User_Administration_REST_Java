@@ -2,8 +2,8 @@ package com.admin.useradministration.model;
 
 public class Group {
     private int groupid;
-    private String Name;
-    private GroupType Type;
+    private String name;
+
     public int getGroupid() {
         return groupid;
     }
@@ -13,19 +13,21 @@ public class Group {
     }
 
     public String getName() {
-        return Name;
+        return name;
     }
 
     public void setName(String name) {
-        Name = name;
+        this.name = name;
     }
 
     public GroupType getType() {
-        return Type;
+        return type;
     }
 
     public void setType(GroupType type) {
-        Type = type;
+        this.type = type;
     }
+
+    private GroupType type;
 
 }

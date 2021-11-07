@@ -55,6 +55,7 @@ public class UserAdminstrationMetaData {
         right7.setName("removerUserFromGroup");
         right7.setType(RightsType.removerUserFromGroup);
 
+
         rightsData.add(right1);
         rightsData.add(right2);
         rightsData.add(right3);

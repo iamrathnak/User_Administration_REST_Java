@@ -3,6 +3,7 @@ package com.admin.useradministration.service;
 
 import com.admin.useradministration.memory.UserAdminstrationMemory;
 import com.admin.useradministration.model.Group;
+import com.admin.useradministration.model.Right;
 import com.admin.useradministration.model.User;
 import com.admin.useradministration.model.UserAuthentication;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class UseradministrationService {
@@ -52,6 +56,10 @@ private UserAdminstrationMemory userAdminstrationMemory;
     public String deleteUserGroupRight(String loggedInUserName,String userName,int rightId,int groupId) {
         userAdminstrationMemory.deleteUserGroupRight(loggedInUserName,userName,rightId,groupId);
         return "ok";
+    }
+
+    public Map<User, List<Right>> getUserList() {
+        return userAdminstrationMemory.getUserList();
     }
 }
 
