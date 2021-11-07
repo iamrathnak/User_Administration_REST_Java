@@ -17,21 +17,38 @@ class UseradministrationController{
 @Autowired
 private UseradministrationService useradministrationService;
 
-//done
-    @RequestMapping("/add-user")
-    public String addUser(@RequestBody User user){
+    /**
+     * Adding new User
+     * @param user
+     * @param headers
+     * @return
+     */
+    @PostMapping("/add-user")
+    public String addUser(@RequestBody User user,@RequestHeader HttpHeaders headers){
         System.out.println("UserName :"+user.getUsername());
-        return ("ok".equalsIgnoreCase( useradministrationService.addUser(user)))?"successfully added "+user.getUsername():"Failed to add user "+user.getUsername();
+        String loggedInUserName=headers.get("UserName").toString();
+
+        return ("ok".equalsIgnoreCase( useradministrationService.addUser(loggedInUserName,user)))?"successfully added "+user.getUsername():"Failed to add user "+user.getUsername();
     }
-//H-B
-    @RequestMapping("/add-user-group")
-    public String addUserGroup(@RequestBody Group group){
-        System.out.println("GroupName :"+group.getName());
-        useradministrationService.addUserToGroup(group,"null");
-        return "user  added to the group "+group.getName()+" successfully";
+
+    /**
+     * Assign User to the Group
+     * @param group
+     * @return
+     */
+    @PutMapping("/{userName}/add-user-group/{groupId}")
+    public String deleteUserGroup(@PathVariable ("userName")String userName,@RequestBody  Group group,@RequestHeader HttpHeaders headers){
+        System.out.println("GroupId :"+group.getGroupid());
+        String loggedInUserName=headers.get("UserName").toString();
+        return ("ok".equalsIgnoreCase( useradministrationService.addUserGroup(loggedInUserName,userName,group)))?"successfully assignd greoup "+group.getGroupid():"Failed to assign group "+group.getGroupid();
     }
-//DOne
-    @RequestMapping("/authentication")
+
+    /**
+     * Authentication service to  loggin admin user
+     * @param userAuthentication
+     * @return
+     */
+    @PostMapping("/authentication")
     public String userAuthentication(@RequestBody UserAuthentication userAuthentication){
         System.out.println("Logged In UserName :"+userAuthentication.getUsername());
         return ("ok".equalsIgnoreCase( useradministrationService.userAuthentication(userAuthentication)))?"successfully logged In "+userAuthentication.getUsername():"Failed to log In "+userAuthentication.getUsername();
@@ -39,27 +56,32 @@ private UseradministrationService useradministrationService;
     }
 
 
-    //done
-    @RequestMapping("/delete-user/{userId}")
-    public String deleteUser(@PathVariable int userId){
-        System.out.println("UserId :"+userId);
-        return ("ok".equalsIgnoreCase( useradministrationService.deleteUser(userId)))?"successfully deleted user "+userId:"Failed to delete user "+userId;
+    /**
+     * Delete  any user by the user who has 'Delete User' rights
+     * @param userName
+     * @param groupId
+     * @param headers
+     * @return
+     */
+     @DeleteMapping("/{userId}/delete-user")
+        public String deleteUser(@PathVariable ("userId")String userName,@PathVariable("groupId") Integer groupId,@RequestHeader HttpHeaders headers){
+        System.out.println("GroupId :"+groupId);
+        String loggedInUserName=headers.get("UserName").toString();
+        return ("ok".equalsIgnoreCase( useradministrationService.deleteUser(loggedInUserName,userName)))?"successfully deleted greoup "+groupId:"Failed to delete group "+groupId;
     }
 
-    //done
-  /*  @RequestMapping("/delete-group/{groupId}")
-    public String deleteGroup(@PathVariable int groupId){
+    /**
+     * Delete  any user assigned group who has ' Delete Group' rights
+     * @param userName
+     * @param groupId
+     * @param headers
+     * @return
+     */
+    @DeleteMapping("/{userName}/delete-user-group/{groupId}")
+    public String deleteUserGroup(@PathVariable ("userName")String userName,@PathVariable("groupId") Integer groupId,@RequestHeader HttpHeaders headers){
         System.out.println("GroupId :"+groupId);
-        return ("ok".equalsIgnoreCase( useradministrationService.deleteGroup(groupId)))?"successfully deleted greoup "+groupId:"Failed to delete group "+groupId;
-    }
-    */
-
-
-     @DeleteMapping("/{userId}/delete-user-right/{groupId}")
-        public String deleteUserRight(@PathVariable ("userId")Integer userId,@PathVariable("groupId") Integer groupId,@RequestHeader HttpHeaders headers){
-        System.out.println("GroupId :"+groupId);
-        String loginUserName=headers.get("UserName").toString();
-        return ("ok".equalsIgnoreCase( useradministrationService.deleteUserRight(loginUserName,userId,groupId)))?"successfully deleted greoup "+groupId:"Failed to delete group "+groupId;
+        String loggedInUserName=headers.get("UserName").toString();
+        return ("ok".equalsIgnoreCase( useradministrationService.deleteUserGroup(loggedInUserName,userName,groupId)))?"successfully deleted greoup "+groupId:"Failed to delete group "+groupId;
     }
 
 

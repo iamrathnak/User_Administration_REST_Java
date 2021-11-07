@@ -10,5 +10,6 @@ public enum RightsType {
     defineRight,
     deleteRight,
     addUserToGroup,
-    removerUserFromGroup
+    removerUserFromGroup;
+
 }

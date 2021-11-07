@@ -17,33 +17,32 @@ public class UseradministrationService {
 @Autowired
 private UserAdminstrationMemory userAdminstrationMemory;
 
-    public String addUser( User user){
-        userAdminstrationMemory.storeUser(user);
+    public String addUser( String loggedInUserName,User user){
+        userAdminstrationMemory.addUser(loggedInUserName,user);
         return "ok";
     }
 
-    public String addUserToGroup( Group userGroup, String userId){
-        userAdminstrationMemory.assignUserToGroup(userGroup,userId);
-        return "ok";
-    }
+
 
 
     public String userAuthentication(UserAuthentication userAuthentication) {
         return userAdminstrationMemory.userAuthentication(userAuthentication)?"ok":"error";
     }
 
-    public String deleteUser(int userId) {
-        userAdminstrationMemory.deleteUser(userId);
-        return "ok";
-    }
-    public String deleteGroup(int groupId) {
-        userAdminstrationMemory.deleteGroup(groupId);
-        return "ok";
-    }
-    public String deleteUserRight(String userName,int userId,int groupId) {
-        userAdminstrationMemory.deleteUserRight(userName,userId,groupId);
+    public String deleteUser(String loggedInUserName,String userName) {
+        userAdminstrationMemory.deleteUser(loggedInUserName,userName);
         return "ok";
     }
 
+    public String deleteUserGroup(String loggedInUserName,String userName,int groupId) {
+        userAdminstrationMemory.deleteUserGroup(loggedInUserName,userName,groupId);
+        return "ok";
+    }
+
+    public String addUserGroup(String loggedInUserName, String userName, Group group) {
+        userAdminstrationMemory.assignUserToGroup(loggedInUserName,userName,group);
+
+        return  "ok";
+    }
 }
 

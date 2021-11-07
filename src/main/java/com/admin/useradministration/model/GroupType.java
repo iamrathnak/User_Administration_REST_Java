@@ -3,7 +3,7 @@ package com.admin.useradministration.model;
 
 
 public enum GroupType {
-    SHouseAdmins,
+    HouseAdmins,
     FamilyMembers,
     Owners,
     SystemAdmins,
