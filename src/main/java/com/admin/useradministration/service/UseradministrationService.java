@@ -44,5 +44,10 @@ private UserAdminstrationMemory userAdminstrationMemory;
 
         return  "ok";
     }
+
+    public String deleteUserRight(String loggedInUserName,String userName,int rightId) {
+        userAdminstrationMemory.deleteUserRight(loggedInUserName,userName,rightId);
+        return "ok";
+    }
 }
 

@@ -16,6 +16,8 @@ public class UserAdminstrationMemory {
 
     private static  Map<User,List<Right>> userTable = new ConcurrentHashMap<>();// userlist with rights
     private  static Map<String,List<Group>> userGroupTable = new ConcurrentHashMap<>();// user with groups
+    private  static Map<Group,List<Right>> groupRightList = new ConcurrentHashMap<>();// group right list
+
     private  static Map<String,String> loginCredentials = new HashMap<>();
     private static  Map<String,LocalDateTime> session = new ConcurrentHashMap<>();//manager user session
 
@@ -140,6 +142,36 @@ if(checkSession) {
         }
 
     }
+
+    /**
+     * Delete  particular  right for the user using rightId
+     * @param loggedInUserName
+     * @param userName
+     * @param rightId
+     */
+    public void deleteUserRight(String loggedInUserName, String userName, int rightId) {
+        boolean  checkSession=  checkUserSession(loggedInUserName);
+        if(checkSession && validateUserRights(loggedInUserName,"DeleteUserRight")){
+            for(Map.Entry<User,List<Right>> key:userTable.entrySet()){
+                if(key.equals(userName)){
+                    List<Right> rightList = key.getValue();
+                    for(Right right:rightList){
+                        if(right.getRightid()==rightId){
+                            rightList.remove(right);
+                        }
+                    }
+
+                    userTable.put(key.getKey(),rightList);
+
+                }
+            }
+        }else{
+            System.out.println("Invalid Admin User");
+
+        }
+
+    }
+
 
     /**
      * util method to Validate user rights
