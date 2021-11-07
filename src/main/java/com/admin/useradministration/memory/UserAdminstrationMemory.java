@@ -151,10 +151,11 @@ if(checkSession) {
         for(Map.Entry key:userTable.entrySet()){
             User user= (User) key.getKey();
             if(user.getUsername().equalsIgnoreCase(userName)){
-               Right right=(Right)key.getValue();
-               if(right.getType().toString().equalsIgnoreCase(rights)){
+               List<Right> right=(List<Right>)key.getValue();
+              for(Right rig:right){
+               if(rig.getName().equalsIgnoreCase(rights)){
                    return true;
-               }
+               }}
 
             }
         }
