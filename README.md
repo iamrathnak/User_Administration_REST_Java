@@ -1,10 +1,14 @@
+
+
+
+
 PreRequsites:
 ----------------------------
-Download the project from Github
-Download intellij IDE
-Download Java 11
-Download Maven
-Download Advance Rest Client Tool
+*Download the project from Github
+*Download intellij IDE
+*Download Java 11
+*Download Maven
+*Download Advance Rest Client Tool
 ---------------------------
 
 
