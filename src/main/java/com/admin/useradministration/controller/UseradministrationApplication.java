@@ -57,13 +57,12 @@ private UseradministrationService useradministrationService;
 
 
     /**
-     * Delete  any user by the user who has 'Delete User' rights
-     * @param userName
+     * Delete  any user by the admin
      * @param groupId
      * @param headers
      * @return
      */
-     @DeleteMapping("/{userId}/delete-user")
+     @DeleteMapping("user/{userId}")
         public String deleteUser(@PathVariable ("userId")String userName,@PathVariable("groupId") Integer groupId,@RequestHeader HttpHeaders headers){
         System.out.println("GroupId :"+groupId);
         String loggedInUserName=headers.get("UserName").toString();
@@ -71,13 +70,13 @@ private UseradministrationService useradministrationService;
     }
 
     /**
-     * Delete  any user assigned group who has ' Delete Group' rights
+     * Delete  the assigned group for the user
      * @param userName
      * @param groupId
      * @param headers
      * @return
      */
-    @DeleteMapping("/{userName}/delete-user-group/{groupId}")
+    @DeleteMapping("/user/{userName}/group/{groupId}")
     public String deleteUserGroup(@PathVariable ("userName")String userName,@PathVariable("groupId") Integer groupId,@RequestHeader HttpHeaders headers){
         System.out.println("GroupId :"+groupId);
         String loggedInUserName=headers.get("UserName").toString();
@@ -90,11 +89,26 @@ private UseradministrationService useradministrationService;
      * @param userName
      * @param rightId
      */
-    @DeleteMapping("/{userName}/delete-user-group/{rightId}")
+    @DeleteMapping("/user/{userName}/right/{rightId}")
     public String deleteUserRight(@PathVariable ("userName")String userName,@PathVariable("rightId") Integer rightId,@RequestHeader HttpHeaders headers){
         System.out.println("rightId :"+rightId);
         String loggedInUserName=headers.get("UserName").toString();
         return ("ok".equalsIgnoreCase( useradministrationService.deleteUserRight(loggedInUserName,userName,rightId)))?"successfully deleted right "+rightId:"Failed to delete right "+rightId;
+    }
+
+    /**
+     * Delete  particular  right for the user group
+     * @param userName
+     * @param rightId
+     */
+    @DeleteMapping("/user/{userName}/group/{groupId}/right/{rightId}")
+    public String deleteUserGroupRight(@PathVariable ("userName")String userName,
+                                       @PathVariable("rightId") Integer rightId,
+                                       @PathVariable("groupId") Integer groupId,
+                                       @RequestHeader HttpHeaders headers){
+        System.out.println("rightId :"+rightId);
+        String loggedInUserName=headers.get("UserName").toString();
+        return ("ok".equalsIgnoreCase( useradministrationService.deleteUserGroupRight(loggedInUserName,userName,rightId,groupId)))?"successfully deleted right "+rightId:"Failed to delete right "+rightId;
     }
 
 

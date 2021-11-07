@@ -122,24 +122,19 @@ if(checkSession) {
      */
     public void deleteUserGroup(String loggedInUserName, String userName, int groupId) {
         boolean  checkSession=  checkUserSession(loggedInUserName);
-        if(checkSession && validateUserRights(loggedInUserName,"DeleteGroup")){
-            for(Map.Entry<String,List<Group>> key:userGroupTable.entrySet()){
-                if(key.equals(userName)){
-                   List<Group> groupList = key.getValue();
-                    for(Group gr:groupList){
-                        if(gr.getGroupid()==groupId){
+            for(Map.Entry<String,List<Group>> key:userGroupTable.entrySet()) {
+                if (key.equals(userName)) {
+                    List<Group> groupList = key.getValue();
+                    for (Group gr : groupList) {
+                        if (gr.getGroupid() == groupId) {
                             groupList.remove(gr);
                         }
                     }
 
-                    userGroupTable.put(userName,groupList);
+                    userGroupTable.put(userName, groupList);
 
                 }
             }
-        }else{
-            System.out.println("Invalid Admin User");
-
-        }
 
     }
 
@@ -171,6 +166,37 @@ if(checkSession) {
         }
 
     }
+    /**
+     * Delete user  group right
+     * @param loggedInUserName
+     * @param userName
+     * @param rightId
+     * @param groupId
+     */
+    //Need to check the logic with client   
+    public void deleteUserGroupRight(String loggedInUserName, String userName, int rightId, int groupId) {
+        boolean  checkSession=  checkUserSession(loggedInUserName);
+        if(checkSession && validateUserRights(loggedInUserName,"DeleteGroup")){
+            for(Map.Entry<String,List<Group>> key:userGroupTable.entrySet()){
+                if(key.equals(userName)){
+                    List<Group> groupList = key.getValue();
+                    for(Group gr:groupList){
+                        if(gr.getGroupid()==groupId){
+                            groupList.remove(gr);
+                        }
+                    }
+
+                    userGroupTable.put(userName,groupList);
+
+                }
+            }
+        }else{
+            System.out.println("Invalid Admin User");
+
+        }
+
+    }
+
 
 
     /**
@@ -209,5 +235,4 @@ if(checkSession) {
         return  false;
     }
 
-
-}
+   }
