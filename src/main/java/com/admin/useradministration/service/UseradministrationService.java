@@ -53,8 +53,8 @@ private UserAdminstrationMemory userAdminstrationMemory;
         userAdminstrationMemory.deleteUserRight(loggedInUserName,userName,rightId);
         return "ok";
     }
-    public String deleteUserGroupRight(String loggedInUserName,String userName,int rightId,int groupId) {
-        userAdminstrationMemory.deleteUserGroupRight(loggedInUserName,userName,rightId,groupId);
+    public String deleteUserGroupRight(String loggedInUserName,int rightId,int groupId) {
+        userAdminstrationMemory.deleteUserGroupRight(loggedInUserName,rightId,groupId);
         return "ok";
     }
 

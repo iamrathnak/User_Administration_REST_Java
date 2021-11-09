@@ -16,13 +16,13 @@ public class UserAdminstrationMemory {
 
     private static  Map<User,List<Right>> userTable = new ConcurrentHashMap<>();// userlist with rights
     private  static Map<String,List<Group>> userGroupTable = new ConcurrentHashMap<>();// user with groups
-    private  static Map<Group,List<Right>> groupRightList = new ConcurrentHashMap<>();// group right list
+    private  static Map<Group,List<Right>> groupRightTable = new ConcurrentHashMap<>();// group right list
 
     private  static Map<String,String> loginCredentials = new HashMap<>();
     private static  Map<String,LocalDateTime> session = new ConcurrentHashMap<>();//manager user session
 
     private  static List<Group> groupData = UserAdminstrationMetaData.getGroupData();//pre-defined groups
-    private  static List<Right> rightsData = UserAdminstrationMetaData.getRightData();//pre-defined rights
+    private  static List<Right> rightsData;//pre-defined rights
 
 
 
@@ -35,7 +35,12 @@ public class UserAdminstrationMemory {
 user.setIsFamilyMember("admin");
 user.setPassword("admin");
 user.setUsername("admin");
+        this.rightsData = UserAdminstrationMetaData.getRightData();
         userTable.put(user, rightsData);
+
+        for(Group gr:groupData){
+            groupRightTable.put(gr,this.rightsData);
+        }
 
     }
 
@@ -47,7 +52,7 @@ user.setUsername("admin");
    public void addUser(String loggedInUserName,User user){
        boolean  checkSession=  checkUserSession(loggedInUserName);
 if(checkSession) {
-
+    this.rightsData = UserAdminstrationMetaData.getRightData();
     userTable.put(user, rightsData);
 }
    }
@@ -161,14 +166,15 @@ if(checkSession) {
         if(checkSession && validateUserRights(loggedInUserName,"DeleteRight")){
             for(Map.Entry<User,List<Right>> key:userTable.entrySet()){
                 if(key.getKey().getUsername().equals(userName)){
-                    List<Right> rightList = key.getValue();
+                    List<Right> rightList =  key.getValue();
                     for(Right right:rightList){
                         if(right.getRightid()==rightId){
                             rightList.remove(right);
+                            userTable.put(key.getKey(),rightList);
+
                         }
                     }
 
-                    userTable.put(key.getKey(),rightList);
 
                 }
             }
@@ -181,24 +187,22 @@ if(checkSession) {
     /**
      * Delete user  group right
      * @param loggedInUserName
-     * @param userName
      * @param rightId
      * @param groupId
      */
     //Need to check the logic with client
-    public void deleteUserGroupRight(String loggedInUserName, String userName, int rightId, int groupId) {
+    public void deleteUserGroupRight(String loggedInUserName,  int rightId, int groupId) {
         boolean  checkSession=  checkUserSession(loggedInUserName);
-        if(checkSession && validateUserRights(loggedInUserName,"DeleteGroup")){
-            for(Map.Entry<String,List<Group>> key:userGroupTable.entrySet()){
-                if(key.getKey().equals(userName)){
-                    List<Group> groupList = key.getValue();
-                    for(Group gr:groupList){
-                        if(gr.getGroupid()==groupId){
-                            groupList.remove(gr);
+        if(checkSession ){
+            for(Map.Entry<Group,List<Right>> key:groupRightTable.entrySet()){
+                if(key.getKey().getGroupid()==(groupId)){
+                    List<Right> rightList = key.getValue();
+                    for(Right gr:rightList){
+                        if(gr.getRightid()==rightId){
+                            rightList.remove(gr);
                         }
                     }
-
-                    userGroupTable.put(userName,groupList);
+                    groupRightTable.put(key.getKey(),rightList);
 
                 }
             }

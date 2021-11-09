@@ -18,7 +18,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class UserAdminstrationMetaData {
 
     private  static List<Group> groupData = new CopyOnWriteArrayList<>();
-    private  static List<Right> rightsData = new CopyOnWriteArrayList<>();
 
 
     /**
@@ -26,6 +25,8 @@ public class UserAdminstrationMetaData {
      * @return
      */
     public static List getRightData() {
+         List<Right> rightsData = new CopyOnWriteArrayList<>();
+
         Right right1 = new Right();
         right1.setRightid(1);
         right1.setName("deleteUser");
