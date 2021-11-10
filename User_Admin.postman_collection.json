@@ -1,0 +1,231 @@
+{
+	"variables": [],
+	"info": {
+		"name": "User_Admin",
+		"_postman_id": "4fc7cfe8-76a4-ee43-7104-3eb06746d24f",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "User Authentication",
+			"request": {
+				"url": "localhost:8080/user-admin/authentication",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"username\":\"admin\",\r\n  \"password\":\"admin\"\r\n\r\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Deleting Group Rights",
+			"request": {
+				"url": "localhost:8080/user-admin/group/3/right/1",
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "UserName",
+						"value": "admin",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get Group Rights",
+			"request": {
+				"url": "localhost:8080/user-admin/group/1",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "UserName",
+						"value": "admin",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Add User",
+			"request": {
+				"url": "localhost:8080/user-admin/user",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "UserName",
+						"value": "admin",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"firstname\":\"adam\",\r\n\t\"isFamilyMember\":\"adam\",\r\n\t\"lastname\":\"adam\",\r\n\t\"password\":\"adam\",\r\n\t\"userid\":1002,\r\n\t\"username\":\"adam\"\r\n\t}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Delete User",
+			"request": {
+				"url": "localhost:8080/user-admin/user/adam",
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "UserName",
+						"value": "admin",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get User Details",
+			"request": {
+				"url": "localhost:8080/user-admin/user",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "UserName",
+						"value": "admin",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get User Group Rights",
+			"request": {
+				"url": "localhost:8080/user-admin/user/adam/group-rights",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "UserName",
+						"value": "admin",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Add User Rights",
+			"request": {
+				"url": "localhost:8080/user-admin/user/rat/right",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "UserName",
+						"value": "admin",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "\n{\"rightid\": 1,\n                \"name\": \"deleteUser\",\n                \"type\": \"deleteUser\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Add User Groups",
+			"request": {
+				"url": "localhost:8080/user-admin/user",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "UserName",
+						"value": "admin",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"firstname\":\"adam\",\r\n\t\"isFamilyMember\":\"adam\",\r\n\t\"lastname\":\"adam\",\r\n\t\"password\":\"adam\",\r\n\t\"userid\":1002,\r\n\t\"username\":\"adam\"\r\n\t}"
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
