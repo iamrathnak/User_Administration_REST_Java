@@ -118,9 +118,7 @@ if(checkSession) {
               User user= (User) key.getKey();
               if(user.getUsername().equalsIgnoreCase(userName)){
                   userTable.remove(user);
-
-              }else{
-                  return false;
+                  return true;
               }
           }
       }else{
@@ -129,7 +127,7 @@ if(checkSession) {
           return false;
       }
 
-        return true;
+        return false;
     }
 
     /**
@@ -149,6 +147,7 @@ if(checkSession) {
                     for (Group gr : groupList) {
                         if (gr.getGroupid() == groupId) {
                             groupList.remove(gr);
+
                         }
                     }
 
