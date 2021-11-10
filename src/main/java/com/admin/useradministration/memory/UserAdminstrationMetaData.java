@@ -17,7 +17,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 @Component
 public class UserAdminstrationMetaData {
 
-    private  static List<Group> groupData = new CopyOnWriteArrayList<>();
 
 
     /**
@@ -76,7 +75,9 @@ public class UserAdminstrationMetaData {
      * @return
      */
     public static  List getGroupData(){
-            Group group1 = new Group();
+        List<Group> groupData = new CopyOnWriteArrayList<>();
+
+        Group group1 = new Group();
             group1.setGroupid(1);
             group1.setName("HouseAdmins");
             group1.setType(GroupType.HouseAdmins);

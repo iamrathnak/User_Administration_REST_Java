@@ -108,7 +108,7 @@ private UseradministrationService useradministrationService;
      * Delete  particular  right for the user group
      * @param rightId
      */
-    //Incomplete
+
     @DeleteMapping("/group/{groupId}/right/{rightId}")
     public String deleteUserGroupRight(
                                        @PathVariable("rightId") Integer rightId,
@@ -156,5 +156,21 @@ List list = new ArrayList();
         }
         return  list;
     }
+
+    @GetMapping("/group/{groupId}")
+    public List getGroupRights(@PathVariable("groupId") Integer groupId,@RequestHeader HttpHeaders headers){
+        String loggedInUserName=headers.get("UserName").get(0);
+        Map<Group, List<Right>> data =memory.getGroupRights(groupId);
+        List list = new ArrayList();
+        for(Map.Entry<Group, List<Right>> key: data.entrySet()){
+            Map map = new HashMap();
+            map.put("GroupName",key.getKey().getName());
+            map.put("GroupId",key.getKey().getGroupid());
+            map.put("groupList", key.getValue());
+            list.add(map);
+        }
+        return  list;
+    }
+
 
 }

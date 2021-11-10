@@ -21,7 +21,7 @@ public class UserAdminstrationMemory {
     private  static Map<String,String> loginCredentials = new HashMap<>();
     private static  Map<String,LocalDateTime> session = new ConcurrentHashMap<>();//manager user session
 
-    private  static List<Group> groupData = UserAdminstrationMetaData.getGroupData();//pre-defined groups
+    private  static List<Group> groupData ;//pre-defined groups
     private  static List<Right> rightsData;//pre-defined rights
 
 
@@ -38,8 +38,9 @@ user.setUsername("admin");
         this.rightsData = UserAdminstrationMetaData.getRightData();
         userTable.put(user, rightsData);
 
+        this.groupData = UserAdminstrationMetaData.getGroupData();
         for(Group gr:groupData){
-            groupRightTable.put(gr,this.rightsData);
+            groupRightTable.put(gr,UserAdminstrationMetaData.getRightData());
         }
 
     }
@@ -257,5 +258,9 @@ if(checkSession) {
 
     public Map<String, List<Group>> getUserGroups(String userName) {
         return userGroupTable;
+    }
+
+    public Map<Group, List<Right>> getGroupRights(Integer groupId) {
+        return groupRightTable;
     }
 }
