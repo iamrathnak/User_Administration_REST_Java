@@ -110,7 +110,7 @@ if(checkSession) {
      * @param loggedInUserName
      * @param userName
      */
-    public void deleteUser(String loggedInUserName,String userName) {
+    public boolean deleteUser(String loggedInUserName,String userName) {
 
       boolean  checkSession=  checkUserSession(loggedInUserName);
       if(checkSession && validateUserRights(loggedInUserName,"DeleteUser")){
@@ -118,13 +118,18 @@ if(checkSession) {
               User user= (User) key.getKey();
               if(user.getUsername().equalsIgnoreCase(userName)){
                   userTable.remove(user);
+
+              }else{
+                  return false;
               }
           }
       }else{
-          System.out.println("Invalid Admin User");
 
+          System.out.println("Invalid Admin User");
+          return false;
       }
 
+        return true;
     }
 
     /**
@@ -262,5 +267,74 @@ if(checkSession) {
 
     public Map<Group, List<Right>> getGroupRights(Integer groupId) {
         return groupRightTable;
+    }
+
+    public boolean userAuthentication(String userName,Right rights) {
+        for(Map.Entry key:userTable.entrySet()){
+            User user= (User) key.getKey();
+            if(user.getUsername().equalsIgnoreCase(userName)){
+                List<Right> right=(List<Right>)key.getValue();
+                for(Right rig:right){
+                    if(rig.getName().equalsIgnoreCase(rights.getName())){
+                        return false;
+                    }else{
+                        right.add(rights);
+                        break;
+                    }
+                }
+                userTable.put(user,right);
+            }
+        }
+   return  true;
+    }
+
+    public List getUserGroupRights(String userName) {
+
+      Map<Group, List<Right>> groupRightTableMap=  groupRightTable;
+        Map<User, List<Right>> userTableMap=        userTable;
+       Map<String, List<Group>> userGroupTableMap= userGroupTable;
+        List<Right> right = null;
+        List<Group> groups = null;
+
+        //Get User rights
+        for(Map.Entry<User, List<Right>> key: userTable.entrySet()){
+            User user= (User) key.getKey();
+            if(user.getUsername().equalsIgnoreCase(userName)) {
+                right = (List<Right>) key.getValue();
+            }
+
+        }
+//Get User Group
+        for(Map.Entry<String, List<Group>> key: userGroupTable.entrySet()){
+            if(key.getKey().equalsIgnoreCase(userName)) {
+                groups =  key.getValue();
+            }
+
+        }
+        List ggRightList = new ArrayList();
+     if(groups!=null){
+
+
+        //Get group rights
+
+        for(Group gg: groups) {
+            List<Right> ggRight = groupRightTable.get(gg);
+            Map map = new HashMap();
+            map.put("GroupName", gg.getName());
+            map.put("GroupId", gg.getGroupid());
+            map.put("GroupRights", ggRight);
+            ggRightList.add(map);
+
+        }        }
+
+            List finalList = new ArrayList();
+            Map map = new HashMap();
+            map.put("UserName",userName);
+            map.put("userRight",right);
+            map.put("UserGroupRight",ggRightList);
+        finalList.add(map);
+
+
+return  finalList;
     }
 }

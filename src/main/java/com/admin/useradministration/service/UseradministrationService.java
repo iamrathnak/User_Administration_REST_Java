@@ -33,9 +33,9 @@ private UserAdminstrationMemory userAdminstrationMemory;
         return userAdminstrationMemory.userAuthentication(userAuthentication)?"ok":"error";
     }
 
-    public String deleteUser(String loggedInUserName,String userName) {
-        userAdminstrationMemory.deleteUser(loggedInUserName,userName);
-        return "ok";
+    public boolean deleteUser(String loggedInUserName,String userName) {
+
+        return userAdminstrationMemory.deleteUser(loggedInUserName,userName);
     }
 
     public String deleteUserGroup(String loggedInUserName,String userName,int groupId) {

@@ -64,6 +64,17 @@ private UseradministrationService useradministrationService;
 
     }
 
+    /**
+     * Adding rights to the user
+     * @param userAuthentication
+     * @return
+     */
+    @PostMapping("/user/{username}/right")
+    public String addRightsForTheUser(@PathVariable ("username")String userName ,@RequestBody Right userAuthentication){
+        return ( memory.userAuthentication(userName,userAuthentication))?"Rights added successfully for the user "+userName:"Rights Already Exist !!";
+
+    }
+
 
     /**
      * Delete  any user by the admin
@@ -74,7 +85,7 @@ private UseradministrationService useradministrationService;
         public String deleteUser(@PathVariable ("userId")String userName,@RequestHeader HttpHeaders headers){
         System.out.println("userId :"+userName);
          String loggedInUserName=headers.get("UserName").get(0);
-        return ("ok".equalsIgnoreCase( useradministrationService.deleteUser(loggedInUserName,userName)))?"successfully deleted user "+userName:"Failed to delete user "+userName;
+        return ( useradministrationService.deleteUser(loggedInUserName,userName))?"successfully deleted user "+userName:"Failed to delete user/User Id doesn't Exist "+userName;
     }
 
     /**
@@ -170,6 +181,15 @@ List list = new ArrayList();
             list.add(map);
         }
         return  list;
+    }
+
+
+    @GetMapping("/user/{userName}/group-rights")
+    public List getUserGroupRights(@PathVariable("userName") String userName,@RequestHeader HttpHeaders headers){
+        String loggedInUserName=headers.get("UserName").get(0);
+        return memory.getUserGroupRights(userName);
+
+
     }
 
 
