@@ -317,12 +317,18 @@ if(checkSession) {
         //Get group rights
 
         for(Group gg: groups) {
-            List<Right> ggRight = groupRightTable.get(gg);
-            Map map = new HashMap();
-            map.put("GroupName", gg.getName());
-            map.put("GroupId", gg.getGroupid());
-            map.put("GroupRights", ggRight);
-            ggRightList.add(map);
+            for(Map.Entry<Group, List<Right>> key: groupRightTable.entrySet()){
+                if(key.getKey().getName().equalsIgnoreCase(gg.getName())) {
+                    Map map = new HashMap();
+                    map.put("GroupName", gg.getName());
+                    map.put("GroupId", gg.getGroupid());
+                    map.put("GroupRights", key.getValue());
+                    ggRightList.add(map);
+                }
+
+            }
+
+
 
         }        }
 
